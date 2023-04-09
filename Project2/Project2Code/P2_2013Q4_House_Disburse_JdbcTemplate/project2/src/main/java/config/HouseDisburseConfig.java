@@ -7,6 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -27,6 +28,10 @@ public class HouseDisburseConfig
         DataSource ds = new EmbeddedDatabaseBuilder().addScript("classpath:2013Q4_HOUSE_DISBURSE.sql").build();
         ds.getConnection().setAutoCommit(true);
         return ds;
+    }
+    @Bean
+    public JdbcTemplate getJdbcTemplate() throws SQLException {
+        return new JdbcTemplate(datasrc());
     }
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {

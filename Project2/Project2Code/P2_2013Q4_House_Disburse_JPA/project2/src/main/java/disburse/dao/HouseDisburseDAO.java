@@ -1,10 +1,8 @@
 package disburse.dao;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import disburse.mapper.HouseDisburseMapper;
+import disburse.repository.HouseDisburseRepository;
 import disburse.vo.HouseDisburseDetail;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +11,15 @@ import java.util.List;
 @Service
 public class HouseDisburseDAO
 {
-    @Autowired
-    HouseDisburseMapper hdList;
+private HouseDisburseRepository hdr;
 
+@Autowired
+    public HouseDisburseDAO (HouseDisburseRepository hdr)
+    {
+        this.hdr = hdr;
+    }
     public List<HouseDisburseDetail> getListOfAllRowsMapper() {
-        List<HouseDisburseDetail> resultList = hdList.getListOfAllHDs();
+        List<HouseDisburseDetail> resultList = hdr.getListOfAllHDs();
 
         for (HouseDisburseDetail detail : resultList) {
             String office = detail.getOffice();
@@ -31,7 +33,7 @@ public class HouseDisburseDAO
     }
 
     public List<HouseDisburseDetail> getListOfHighestAmount() {
-        List<HouseDisburseDetail> resultList = hdList.getHDByHighestAmount();
+        List<HouseDisburseDetail> resultList = hdr.getHDByHighestAmount();
 
         for (HouseDisburseDetail detail : resultList) {
             String office = detail.getOffice();
@@ -43,13 +45,13 @@ public class HouseDisburseDAO
         System.out.println(resultList);
         return resultList;
     }
-    public void saveHDToDB(HouseDisburseDetail hdd) {
-        hdList.saveHDToDB(hdd);
-        System.out.println(hdd);
-    }
+//    public void saveHDToDB(HouseDisburseDetail hdd) {
+//        hdr.saveHDToDB(hdd);
+//        System.out.println(hdd);
+//    }
 
-    public List<HouseDisburseDetail> getHDByIdMyBatis(String bioGuideID) {
-        List<HouseDisburseDetail> resultList = hdList.getHDById(bioGuideID);
+    public List<HouseDisburseDetail> getHDByIdJPA(String bioGuideID) {
+        List<HouseDisburseDetail> resultList = (List<HouseDisburseDetail>) hdr.getHDByIDJPA(bioGuideID);
 
         for (HouseDisburseDetail detail : resultList) {
             String office = detail.getOffice();

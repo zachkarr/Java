@@ -2,6 +2,7 @@ package disburse.controller;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import disburse.dao.HouseDisburseDAO;
+import disburse.repository.HouseDisburseRepository;
 import disburse.vo.HouseDisburseDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,6 @@ public class HouseDisburseController
     public String getAll(Model model) {
 
        List<HouseDisburseDetail> hdList = hdDAO.getListOfAllRowsMapper();
-       System.out.println(hdList);
        model.addAttribute("hdList", hdList);
        return "disburse";
    }
@@ -30,15 +30,14 @@ public class HouseDisburseController
       return "disburse";
    }
 
-   @PostMapping("/loadDisburse")
-
-   public @ResponseBody HouseDisburseDetail postHDD(@RequestBody HouseDisburseDetail hdd){
-      hdDAO.saveHDToDB(hdd);
-      return hdd;
-   }
+//   @PostMapping("/loadDisburse")
+//   public @ResponseBody HouseDisburseDetail postHDD(@RequestBody HouseDisburseDetail hdd){
+//      hdDAO.saveHDToDB(hdd);
+//      return hdd;
+//   }
    @GetMapping("/bioGuideID/{bioGuideID}")
    public String getByID(@PathVariable("bioGuideID") String bioGuideID, Model model) {
-      List<HouseDisburseDetail> hdList = hdDAO.getHDByIdMyBatis(bioGuideID);
+      List<HouseDisburseDetail> hdList = hdDAO.getHDByIdJPA(bioGuideID);
       model.addAttribute("hdList", hdList);
       return "disburse";
    }

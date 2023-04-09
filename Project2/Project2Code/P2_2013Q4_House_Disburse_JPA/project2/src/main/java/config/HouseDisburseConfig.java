@@ -7,6 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 @SpringBootApplication
 @ComponentScan("disburse")
 @MapperScan("disburse.mapper")
+@EnableJpaRepositories("disburse.repository")
 
 public class HouseDisburseConfig
 {
@@ -40,7 +42,7 @@ public class HouseDisburseConfig
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(ds);
-        em.setPackagesToScan("crm.vo");
+        em.setPackagesToScan("disburse.vo");
         JpaVendorAdapter va = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(va);
         return em;
